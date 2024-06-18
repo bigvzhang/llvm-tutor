@@ -37,5 +37,9 @@ add_library(HelloWorld SHARED HelloWorld.cpp)
 
 # Allow undefined symbols in shared objects on Darwin (this is the default
 # behaviour on Linux)
-target_link_libraries(HelloWorld
-  "$<$<PLATFORM_ID:Darwin>:-undefined dynamic_lookup>")
+if(WIN32)
+	target_link_libraries(HelloWorld LLVMCore LLVMPasses LLVMIRReader LLVMSupport)
+else()
+    target_link_libraries(HelloWorld
+       "$<$<PLATFORM_ID:Darwin>:-undefined dynamic_lookup>")
+endif()
